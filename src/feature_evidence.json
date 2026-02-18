@@ -1,0 +1,67 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-an-app-level-runtime-error-fallback-so-that-if-the-react-app-fails-during-startup-routing-auth-query-initialization-users-see-a-readable-error-screen-instead-of-a-blank-page-including-a-clear-call-to-action-to-reload-and-a-secondary-action-to-reset-cached-data-service-worker-caches-localstorage-and-then-reload",
+      "featureTitle": "Add an app-level runtime error fallback so that if the React app fails during startup (routing/auth/query initialization), users see a readable error screen instead of a blank page, including a clear call-to-action to reload and a secondary action to reset cached data (service worker caches + localStorage) and then reload.",
+      "files": [
+        "frontend/src/components/StartupErrorBoundary.tsx",
+        "frontend/src/components/StartupErrorFallback.tsx",
+        "frontend/src/main.tsx",
+        "frontend/src/utils/pwaReset.ts"
+      ],
+      "components": [
+        "authorization@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-fix-service-worker-caching-behavior-to-prevent-stale-cached-navigation-shell-e-g-cached-or-index-html-from-breaking-new-deployments-use-a-network-first-strategy-for-navigation-requests-and-ensure-the-newest-app-shell-is-used-after-a-deploy-while-keeping-offline-fallback-working",
+      "featureTitle": "Fix service worker caching behavior to prevent stale cached navigation shell (e.g., cached “/” or “/index.html”) from breaking new deployments; use a network-first strategy for navigation requests and ensure the newest app shell is used after a deploy while keeping offline fallback working.",
+      "files": [
+        "frontend/public/service-worker.js"
+      ],
+      "components": [
+        "authorization@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-improve-service-worker-update-handling-in-the-react-app-so-users-reliably-receive-updates-detect-when-a-new-service-worker-is-waiting-installed-and-prompt-the-user-english-text-to-reload-to-apply-the-update-with-a-one-click-reload-action",
+      "featureTitle": "Improve service worker update handling in the React app so users reliably receive updates: detect when a new service worker is waiting/installed and prompt the user (English text) to reload to apply the update, with a one-click reload action.",
+      "files": [
+        "frontend/public/service-worker.js",
+        "frontend/src/App.tsx",
+        "frontend/src/components/ServiceWorkerUpdatePrompt.tsx"
+      ],
+      "components": [
+        "authorization@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

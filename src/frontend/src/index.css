@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Vibrant Elegant Summer Theme - Light Mode */
+    --background: oklch(98% 0.01 240);
+    --foreground: oklch(20% 0.02 240);
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(20% 0.02 240);
+    --popover: oklch(100% 0 0);
+    --popover-foreground: oklch(20% 0.02 240);
+    
+    /* Vibrant tropical teal for primary */
+    --primary: oklch(58% 0.24 190);
+    --primary-foreground: oklch(100% 0 0);
+    
+    /* Vibrant coral pink for secondary */
+    --secondary: oklch(68% 0.28 15);
+    --secondary-foreground: oklch(100% 0 0);
+    
+    /* Vibrant sunny yellow for accent */
+    --accent: oklch(80% 0.28 85);
+    --accent-foreground: oklch(20% 0.02 240);
+    
+    /* Light ocean blue for muted */
+    --muted: oklch(92% 0.02 240);
+    --muted-foreground: oklch(45% 0.02 240);
+    
+    --destructive: oklch(60% 0.22 25);
+    --destructive-foreground: oklch(100% 0 0);
+    --border: oklch(85% 0.02 240);
+    --input: oklch(85% 0.02 240);
+    --ring: oklch(58% 0.24 190);
+    --radius: 0.5rem;
+    
+    /* Summer palette extensions - vibrant pastels */
+    --summer-coral: oklch(68% 0.28 15);
+    --summer-seafoam: oklch(75% 0.22 165);
+    --summer-aqua: oklch(65% 0.26 200);
+    --summer-yellow: oklch(85% 0.28 90);
+    --summer-teal: oklch(58% 0.24 190);
+  }
+
+  .dark {
+    /* Vibrant Elegant Summer Theme - Dark Mode */
+    --background: oklch(15% 0.02 240);
+    --foreground: oklch(95% 0.01 240);
+    --card: oklch(18% 0.02 240);
+    --card-foreground: oklch(95% 0.01 240);
+    --popover: oklch(18% 0.02 240);
+    --popover-foreground: oklch(95% 0.01 240);
+    
+    /* Vibrant tropical teal for primary */
+    --primary: oklch(65% 0.26 190);
+    --primary-foreground: oklch(100% 0 0);
+    
+    /* Vibrant coral pink for secondary */
+    --secondary: oklch(70% 0.28 15);
+    --secondary-foreground: oklch(100% 0 0);
+    
+    /* Vibrant sunny yellow for accent */
+    --accent: oklch(75% 0.26 85);
+    --accent-foreground: oklch(15% 0.02 240);
+    
+    /* Dark ocean blue for muted */
+    --muted: oklch(25% 0.02 240);
+    --muted-foreground: oklch(70% 0.02 240);
+    
+    --destructive: oklch(60% 0.24 25);
+    --destructive-foreground: oklch(100% 0 0);
+    --border: oklch(30% 0.02 240);
+    --input: oklch(30% 0.02 240);
+    --ring: oklch(65% 0.26 190);
+    
+    /* Summer palette extensions - vibrant pastels for dark mode */
+    --summer-coral: oklch(70% 0.28 15);
+    --summer-seafoam: oklch(70% 0.22 165);
+    --summer-aqua: oklch(60% 0.26 200);
+    --summer-yellow: oklch(80% 0.26 90);
+    --summer-teal: oklch(65% 0.26 190);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Harmonized font weights */
+  body {
+    font-weight: 400;
+  }
+  
+  button, .button {
+    font-weight: 500;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism utilities */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-black/20;
+  }
+  
+  /* Glow animations */
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px oklch(var(--primary) / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 30px oklch(var(--primary) / 0.8);
+    }
+  }
+  
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  
+  /* Float animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+  }
+  
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delayed {
+    animation: float-delayed 8s ease-in-out infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float-slow 10s ease-in-out infinite;
+  }
+}
+

@@ -1,0 +1,76 @@
+{
+  "kind": "build_request",
+  "title": "Troubleshoot and fix Production Version 24 not loading",
+  "projectName": "WorkflowHub",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Add an app-level runtime error fallback so that if the React app fails during startup (routing/auth/query initialization), users see a readable error screen instead of a blank page, including a clear call-to-action to reload and a secondary action to reset cached data (service worker caches + localStorage) and then reload.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "version 24 not working"
+        ]
+      },
+      "acceptanceCriteria": [
+        "If an uncaught error occurs during initial render, the UI shows an error screen with English text (not a blank page).",
+        "The error screen includes a “Reload” action that refreshes the page.",
+        "The error screen includes a “Reset and Reload” action that clears service worker caches (when available) and localStorage, unregisters service workers if possible, then reloads.",
+        "Normal operation is unchanged when no error occurs."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Fix service worker caching behavior to prevent stale cached navigation shell (e.g., cached “/” or “/index.html”) from breaking new deployments; use a network-first strategy for navigation requests and ensure the newest app shell is used after a deploy while keeping offline fallback working.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "version 24 not working"
+        ]
+      },
+      "acceptanceCriteria": [
+        "After a new deployment, a user who previously loaded the app (and has a service worker installed) can refresh and the newest version loads (no persistent white screen due to stale cached HTML).",
+        "When offline, navigating to the app shows the existing offline fallback page.",
+        "Non-navigation asset requests still function correctly with the chosen caching strategy (no infinite fetch loops, no console spam)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Improve service worker update handling in the React app so users reliably receive updates: detect when a new service worker is waiting/installed and prompt the user (English text) to reload to apply the update, with a one-click reload action.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "version 24 not working"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When a new service worker version is available, the app displays a visible prompt to reload and apply the update.",
+        "Clicking the update prompt reloads the page and the new service worker takes control (no repeated prompts on subsequent loads unless another update exists).",
+        "If service worker registration fails, the app continues to function without crashing."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for any user-facing text.",
+    "Do not modify files under frontend/src/components/ui or any paths listed in frontend.immutablePaths.",
+    "Backend must remain single-actor; only add a migration file if state schema changes are required (avoid if not needed for this fix)."
+  ],
+  "nonGoals": [
+    "Adding new product features unrelated to fixing the Version 24 loading/deployment issue.",
+    "Introducing external monitoring/analytics services."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

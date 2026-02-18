@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Deployment Version 24 is not working (user reports production version not functioning)."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-add-an-app-level-runtime-error-fallback-so-that-if-the-react-app-fails-during-startup-routing-auth-query-initialization-users-see-a-readable-error-screen-instead-of-a-blank-page-including-a-clear-call-to-action-to-reload-and-a-secondary-action-to-reset-cached-data-service-worker-caches-localstorage-and-then-reload",
+      "title": "Add an app-level runtime error fallback so that if the React app fails during startup (routing/auth/query initialization), users see a readable error screen instead of a blank page, including a clear call-to-action to reload and a secondary action to reset cached data (service worker caches + localStorage) and then reload.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-service-worker-caching-behavior-to-prevent-stale-cached-navigation-shell-e-g-cached-or-index-html-from-breaking-new-deployments-use-a-network-first-strategy-for-navigation-requests-and-ensure-the-newest-app-shell-is-used-after-a-deploy-while-keeping-offline-fallback-working",
+      "title": "Fix service worker caching behavior to prevent stale cached navigation shell (e.g., cached “/” or “/index.html”) from breaking new deployments; use a network-first strategy for navigation requests and ensure the newest app shell is used after a deploy while keeping offline fallback working.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-service-worker-update-handling-in-the-react-app-so-users-reliably-receive-updates-detect-when-a-new-service-worker-is-waiting-installed-and-prompt-the-user-english-text-to-reload-to-apply-the-update-with-a-one-click-reload-action",
+      "title": "Improve service worker update handling in the React app so users reliably receive updates: detect when a new service worker is waiting/installed and prompt the user (English text) to reload to apply the update, with a one-click reload action.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [],
+  "projectName": "WorkflowHub",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

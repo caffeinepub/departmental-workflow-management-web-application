@@ -1,0 +1,86 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "WorkflowHub - Fix blank startup screen & service worker update/caching reliability",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add an app-level runtime error fallback that renders a readable recovery screen with Reload and Reset-and-Reload actions when startup crashes.",
+      "acceptanceCriteria": [
+        "If an uncaught error occurs during initial render, the UI shows an error screen with English text (not a blank page).",
+        "The error screen includes a “Reload” action that refreshes the page.",
+        "The error screen includes a “Reset and Reload” action that clears service worker caches (when available) and localStorage, unregisters service workers if possible, then reloads.",
+        "Normal operation is unchanged when no error occurs."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/pwaReset.ts",
+          "operation": "create",
+          "description": "Add a small utility to perform “Reset and Reload”: clear localStorage, clear Cache Storage entries when available, attempt to unregister service workers, then reload the page."
+        },
+        {
+          "path": "frontend/src/components/StartupErrorFallback.tsx",
+          "operation": "create",
+          "description": "Create a readable startup error screen component (English text) that shows the error summary/details and provides “Reload” and “Reset and Reload” actions (using the reset utility)."
+        },
+        {
+          "path": "frontend/src/components/StartupErrorBoundary.tsx",
+          "operation": "create",
+          "description": "Create an app-level React error boundary that catches render-time crashes during startup and renders StartupErrorFallback instead of a blank screen."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Wrap the root app render with StartupErrorBoundary so initialization/render errors show the fallback UI; add minimal global error hooks (window error + unhandledrejection) that can trigger rendering the same fallback rather than leaving users on a blank page."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Fix service worker caching to avoid stale cached app shell by using network-first for navigations while preserving offline fallback behavior.",
+      "acceptanceCriteria": [
+        "After a new deployment, a user who previously loaded the app (and has a service worker installed) can refresh and the newest version loads (no persistent white screen due to stale cached HTML).",
+        "When offline, navigating to the app shows the existing offline fallback page.",
+        "Non-navigation asset requests still function correctly with the chosen caching strategy (no infinite fetch loops, no console spam)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/service-worker.js",
+          "operation": "modify",
+          "description": "Adjust caching strategy: stop relying on cache-first for navigation HTML, implement network-first handling for navigation requests (with cached/offline fallback to frontend/public/offline.html), and keep a safe strategy for non-navigation assets that avoids fetch loops and noisy failures."
+        },
+        {
+          "path": "frontend/public/offline.html",
+          "operation": "modify",
+          "description": "Ensure the offline fallback page remains compatible with the updated service worker strategy (e.g., still reachable via navigation fallback) without changing user-facing text away from English."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Improve service worker update handling by detecting waiting/installed updates and prompting users to reload to apply updates, without breaking when registration fails.",
+      "acceptanceCriteria": [
+        "When a new service worker version is available, the app displays a visible prompt to reload and apply the update.",
+        "Clicking the update prompt reloads the page and the new service worker takes control (no repeated prompts on subsequent loads unless another update exists).",
+        "If service worker registration fails, the app continues to function without crashing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/service-worker.js",
+          "operation": "modify",
+          "description": "Add update-activation support needed by the UI: handle a message from the client to activate an update immediately (e.g., skip waiting), and ensure activation/claim behavior cooperates with the navigation network-first strategy."
+        },
+        {
+          "path": "frontend/src/components/ServiceWorkerUpdatePrompt.tsx",
+          "operation": "create",
+          "description": "Create a visible in-app update prompt component (English text) that listens for service worker registration update signals (waiting/installed) and offers a one-click action to reload and apply the update."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Replace the current in-App service worker registration useEffect with the ServiceWorkerUpdatePrompt manager/prompt wiring so updates are detected and presented reliably; ensure failures are caught and do not crash normal app rendering."
+        }
+      ]
+    }
+  ]
+}

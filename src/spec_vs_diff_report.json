@@ -1,0 +1,51 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T10:02:48.655Z",
+  "summary": "The diff adds new components/utilities for a startup error fallback (error boundary + reset-and-reload) and a service-worker update prompt, and modifies the service worker to use network-first navigation caching with offline fallback. However, based on the provided diff summary, the new startup error boundary and update prompt are not clearly wired into the app’s top-level render, and an extra project_state.json file was introduced that wasn’t requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Add an app-level runtime error fallback so that if the React app fails during startup, users see a readable error screen with actions to Reload and Reset cached data (service worker caches + localStorage) then reload.",
+      "reason": "StartupErrorBoundary/StartupErrorFallback and the reset utility are added, but the diff summary does not show them being mounted at the app entry/root level (e.g., wrapping <App /> in main.tsx or otherwise applied to initial render). Without being wired in, uncaught startup errors may still result in a blank page.",
+      "evidence": [
+        "frontend/src/components/StartupErrorBoundary.tsx",
+        "frontend/src/components/StartupErrorFallback.tsx",
+        "frontend/src/utils/pwaReset.ts",
+        "frontend/src/main.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Improve service worker update handling so users reliably receive updates: detect a waiting/installed SW and prompt the user to reload with a one-click reload action.",
+      "reason": "ServiceWorkerUpdatePrompt is added and imported in App.tsx, but the diff summary snippet does not show it being rendered anywhere. If it is not mounted, users will not see the update prompt.",
+      "evidence": [
+        "frontend/src/components/ServiceWorkerUpdatePrompt.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added project_state.json tracking file with feature request entries (AR-1/AR-2/AR-3).",
+      "reason": "The BuildRequest does not ask to add or modify project tracking/state files; it focuses on runtime error fallback and service worker behavior.",
+      "evidence": [
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/public/service-worker.js",
+    "frontend/src/App.tsx",
+    "frontend/src/components/ServiceWorkerUpdatePrompt.tsx",
+    "frontend/src/components/StartupErrorBoundary.tsx",
+    "frontend/src/components/StartupErrorFallback.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/utils/pwaReset.ts",
+    "project_state.json"
+  ]
+}
